@@ -11,8 +11,12 @@
         'project',
     ],
     'data': [
-        #'security/ir.model.access.csv',
-        'views/project_project.xml',
+        'security/ir.model.access.csv',
+        'views/project.xml',
+        'views/team.xml',
+        'views/task.xml',
+        'views/sprint.xml',
+        'views/stage.xml',
     ],
 }
 

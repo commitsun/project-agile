@@ -1,1 +1,5 @@
-from . import project_project
+from . import project
+from . import team
+from . import task
+from . import sprint
+from . import stage
