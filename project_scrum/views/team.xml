@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="edit_project_team" model="ir.ui.view">
         <field name="name">project.scrum.team.form</field>
@@ -25,9 +25,11 @@
             </p>
         </field>
     </record>
-    <menuitem id="menu_team_scrum"
-              action="action_view_all_teams"
-              parent="project.menu_project_config"
-              name="Scrum teams"
-              sequence="1"/>
+    <menuitem
+        id="menu_team_scrum"
+        action="action_view_all_teams"
+        parent="project.menu_project_config"
+        name="Scrum teams"
+        sequence="1"
+    />
 </odoo>

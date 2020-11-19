@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="edit_project_scrum" model="ir.ui.view">
         <field name="model">project.project</field>
@@ -6,17 +6,20 @@
         <field name="arch" type="xml">
             <xpath expr="//div[@class='oe_title']" position="inside">
                  <div>
-                    <label for="use_scrum" class="oe_inline" string="Use scrum:"/>
+                    <label for="use_scrum" class="oe_inline" string="Use scrum:" />
                     <field name="use_scrum" widget="boolean_toggle" />
                 </div>
             </xpath>
             <notebook position="inside">
-                <page string="Scrum" attrs="{'invisible' : [('use_scrum', '!=', True)]}">
+                <page
+                    string="Scrum"
+                    attrs="{'invisible' : [('use_scrum', '!=', True)]}"
+                >
                     <group>
                         <field name="team_id" />
-                        <field name="sprint_duration"/>
-                        <field name="current_sprint"/>
-                        <field name="next_sprint"/>
+                        <field name="sprint_duration" />
+                        <field name="current_sprint" />
+                        <field name="next_sprint" />
                     </group>
                     <h2>Sprints in this project:</h2>
                     <field name="sprint_ids" nolabel="1">

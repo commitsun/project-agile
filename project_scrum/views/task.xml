@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
         <record id="edit_scrum_task" model="ir.ui.view">
             <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_form2"/>
-            <field name="priority" eval="8"/>
+            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="priority" eval="8" />
             <field name="arch" type="xml">
 
                 <xpath expr="//field[@name='description']" position="before">
@@ -18,20 +18,27 @@
 
                 <xpath expr="//field[@name='user_id']" position="replace">
 
-                    <field name="user_id"
-                           class="o_task_user_field"
-                           attrs="{'invisible' : [('use_scrum', '=', True)]}"
-                           domain="[('share', '=', False)]"/>
+                    <field
+                        name="user_id"
+                        class="o_task_user_field"
+                        attrs="{'invisible' : [('use_scrum', '=', True)]}"
+                        domain="[('share', '=', False)]"
+                    />
 
-                    <field name="user_id"
-                           class="o_task_user_field"
-                            attrs="{'invisible' : [('use_scrum', '!=', True)]}"
-                           domain="[('share', '=', False), ('id', 'in', allowed_users)]"/>
+                    <field
+                        name="user_id"
+                        class="o_task_user_field"
+                        attrs="{'invisible' : [('use_scrum', '!=', True)]}"
+                        domain="[('share', '=', False), ('id', 'in', allowed_users)]"
+                    />
 
                 </xpath>
 
                  <notebook position="inside">
-                     <page string="User story" attrs="{'invisible' : [('use_scrum', '!=', True)]}">
+                     <page
+                        string="User story"
+                        attrs="{'invisible' : [('use_scrum', '!=', True)]}"
+                    >
                         <group>
                             <field name="who" />
                             <field name="what" />
@@ -39,15 +46,21 @@
                         </group>
                     </page>
 
-                    <page string="Definition of Done" attrs="{'invisible' : [('use_scrum', '!=', True)]}">
+                    <page
+                        string="Definition of Done"
+                        attrs="{'invisible' : [('use_scrum', '!=', True)]}"
+                    >
                         <group>
-                            <field name="def_of_done" widget="html"/>
+                            <field name="def_of_done" widget="html" />
                         </group>
                     </page>
 
-                    <page string="Technical Details" attrs="{'invisible' : [('use_scrum', '!=', True)]}">
+                    <page
+                        string="Technical Details"
+                        attrs="{'invisible' : [('use_scrum', '!=', True)]}"
+                    >
                         <group>
-                            <field name="technical_details" widget="html"/>
+                            <field name="technical_details" widget="html" />
                         </group>
                     </page>
 

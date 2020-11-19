@@ -1,8 +1,7 @@
-from odoo import models, fields
+from odoo import fields, models
+
 
 class StageScrum(models.Model):
-    _inherit = 'project.task.type'
+    _inherit = "project.task.type"
 
-    use_in_sprints = fields.Boolean(
-        "Use in sprints"
-    )
+    use_in_sprints = fields.Boolean("Use in sprints")

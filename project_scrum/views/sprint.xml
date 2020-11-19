@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <record id="edit_sprint" model="ir.ui.view">
         <field name="name">project.scrum.sprint.form</field>
@@ -6,9 +6,7 @@
         <field name="arch" type="xml">
             <form string="Sprint">
                 <group>
-                    <field name="project_id"
-                        domain="[('use_scrum', '=', True)]"
-                    />
+                    <field name="project_id" domain="[('use_scrum', '=', True)]" />
                     <field name="name" />
                     <field name="start_date" />
                     <field name="end_date" />
@@ -21,9 +19,7 @@
         <field name="model">project.scrum.sprint</field>
         <field name="arch" type="xml">
             <tree string="Sprints">
-                <field name="project_id"
-                        domain="[('use_scrum', '=', True)]"
-                    />
+                <field name="project_id" domain="[('use_scrum', '=', True)]" />
                 <field name="name" />
                 <field name="start_date" />
                 <field name="end_date" />
@@ -41,9 +37,11 @@
             </p>
         </field>
     </record>
-    <menuitem id="menu_sprint_scrum"
-              action="action_view_all_sprints"
-              parent="project.menu_project_config"
-              name="Sprints"
-              sequence="1"/>
+    <menuitem
+        id="menu_sprint_scrum"
+        action="action_view_all_sprints"
+        parent="project.menu_project_config"
+        name="Sprints"
+        sequence="1"
+    />
 </odoo>
