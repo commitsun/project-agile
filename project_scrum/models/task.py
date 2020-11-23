@@ -28,13 +28,10 @@ class TaskScrum(models.Model):
     use_scrum = fields.Boolean(
         compute="_compute_project_use_scrum", search="_search_project_use_scrum"
     )
-
     who = fields.Char(string="Who")
     what = fields.Char(string="What")
     why = fields.Char(string="Why")
-
     allowed_users = fields.One2many("res.users", compute="_compute_allowed_users")
-
     def_of_done = fields.Html()
     technical_details = fields.Html()
     pr_link = fields.Char(string="Pull request link")

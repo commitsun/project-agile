@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
-        <record id="stage_scrum_view" model="ir.ui.view">
+        <record id="stage_scrum_edit" model="ir.ui.view">
             <field name="name">project.stage.scrum.form</field>
             <field name="model">project.task.type</field>
             <field name="inherit_id" ref="project.task_type_edit" />
-            <field name="priority" eval="8" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='mail_template_id']" position="after">
                     <field name="use_in_sprints" widget="boolean_toggle" />
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="stage_view_tree">
+            <field name="name">project.stage.scrum.tree</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="use_in_sprints" />
                 </xpath>
             </field>
         </record>

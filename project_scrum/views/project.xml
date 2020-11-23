@@ -23,7 +23,7 @@
                     </group>
                     <h2>Sprints in this project:</h2>
                     <field name="sprint_ids" nolabel="1">
-                        <tree create="false" delete="false" editable="bottom">
+                        <tree create="false" delete="false" edit="false">
                             <field name="name" />
                             <field name="start_date" />
                             <field name="end_date" />
@@ -31,6 +31,16 @@
                     </field>
                 </page>
             </notebook>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="project_view_scrum_tree">
+        <field name="name">project.project.scrum.tree</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="use_scrum" />
+            </xpath>
         </field>
     </record>
 </odoo>

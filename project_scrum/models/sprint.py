@@ -1,4 +1,5 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class SprintScrum(models.Model):
@@ -19,6 +20,9 @@ class SprintScrum(models.Model):
         readonly=False,
     )
 
+    start_date = fields.Date(string="Sprint start date")
+    end_date = fields.Date(string="Sprint end date")
+
     @api.depends("project_id")
     def _compute_sprint_name(self):
         for record in self:
@@ -29,5 +33,42 @@ class SprintScrum(models.Model):
                 if project_seq:
                     record.name = record.project_id.name + "-sprint-" + str(project_seq)
 
-    start_date = fields.Date(string="Sprint start date")
-    end_date = fields.Date(string="Sprint end date")
+    @api.constrains("start_date", "end_date")
+    def check_dates(self):
+
+        for record in self:
+            if record.start_date < fields.date.today():
+                raise ValidationError(
+                    _("The start date cannot be earlier than current date")
+                )
+
+            elif record.end_date < fields.date.today():
+                raise ValidationError(
+                    _("The end date cannot be earlier than current date")
+                )
+
+            elif record.start_date >= record.end_date:
+                raise ValidationError(
+                    _("The end date cannot be earlier than start date")
+                )
+
+            for sprint in self.env["project.scrum.sprint"].search(
+                [("project_id", "=", record.project_id.id), ("id", "!=", record.id)]
+            ):
+                # https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap/325964#325964
+                # (StartA <= EndB)  and  (EndA >= StartB)
+                if (
+                    sprint.start_date <= record.end_date
+                    and sprint.end_date >= record.start_date
+                ):
+                    raise ValidationError(_("Range of sprint overlaps another sprint"))
+
+    @api.constrains("project_id")
+    def check_is_scrum_project(self):
+        for record in self:
+            if not record.project_id.use_scrum:
+                raise ValidationError(
+                    _(
+                        "you cannot create sprints belonging to projects that do not use scrum"
+                    )
+                )
