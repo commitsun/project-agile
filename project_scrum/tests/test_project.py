@@ -3,13 +3,16 @@ import datetime
 from freezegun import freeze_time
 
 from odoo import fields
-from odoo.exceptions import ValidationError
 from odoo.tests import common
 
 
 @freeze_time("1980-01-01")
 class TestProject(common.TransactionCase):
     def test_compute_current_sprint(self):
+        # create a project and assign 3 sprints
+        # should get as the current sprint the 1st one
+        # (wich contains the current date inside start date and end date)
+
         project = self.env["project.project"].create(
             {
                 "name": "test_project_scrum",
@@ -45,6 +48,10 @@ class TestProject(common.TransactionCase):
         self.assertEqual(sprint1, project.current_sprint, "Wrong current sprint")
 
     def test_compute_next_sprint(self):
+        # create a project and assign 3 sprints
+        # should get as the next sprint the 2st one
+        # (wich is the next one to the current sprint)
+
         project = self.env["project.project"].create(
             {
                 "name": "test_project_scrum",

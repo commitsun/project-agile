@@ -55,7 +55,9 @@ class SprintScrum(models.Model):
             for sprint in self.env["project.scrum.sprint"].search(
                 [("project_id", "=", record.project_id.id), ("id", "!=", record.id)]
             ):
-                # https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap/325964#325964
+                # https://stackoverflow.com/questions/325933/determine-whether
+                # -two-date-ranges-overlap/325964#325964
+
                 # (StartA <= EndB)  and  (EndA >= StartB)
                 if (
                     sprint.start_date <= record.end_date
@@ -69,6 +71,7 @@ class SprintScrum(models.Model):
             if not record.project_id.use_scrum:
                 raise ValidationError(
                     _(
-                        "you cannot create sprints belonging to projects that do not use scrum"
+                        "you cannot create sprints belonging to projects"
+                        " that do not use scrum"
                     )
                 )
