@@ -63,7 +63,9 @@
             <field name="priority" eval="8" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='tag_ids']" position="after">
-                    <field name="sprint_id" />
+                    <div>
+                    <field name="sprint_id" widget="label_selection" />
+                    </div>
                 </xpath>
             </field>
          </record>

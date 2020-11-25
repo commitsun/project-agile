@@ -8,8 +8,18 @@
                 <group>
                     <field name="project_id" domain="[('use_scrum', '=', True)]" />
                     <field name="name" />
-                    <field name="start_date" />
-                    <field name="end_date" />
+                    <field
+                        name="start_date"
+                        widget="daterange"
+                        class="oe_inline"
+                        options="{'related_end_date': 'end_date'}"
+                    />
+                    <field
+                        name="end_date"
+                        widget="daterange"
+                        class="oe_inline"
+                        options="{'related_start_date': 'start_date'}"
+                    />
                 </group>
             </form>
         </field>
@@ -35,6 +45,10 @@
             </p>
         </field>
     </record>
+
+
+
+
     <menuitem
         id="menu_sprint_scrum"
         action="action_view_all_sprints"

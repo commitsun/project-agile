@@ -9,14 +9,14 @@ class ProjectScrum(models.Model):
     sprint_ids = fields.One2many("project.scrum.sprint", "project_id")
     current_sprint = fields.Many2one(
         "project.scrum.sprint",
-        string="The current sprint",
+        string="Current sprint",
         compute="_compute_current_sprint",
         readonly=True,
         store=False,
     )
     next_sprint = fields.Many2one(
         "project.scrum.sprint",
-        string="The next sprint",
+        string="Next sprint",
         compute="_compute_next_sprint",
         readonly=True,
         store=False,
@@ -40,7 +40,7 @@ class ProjectScrum(models.Model):
 
     def project_sequence(self, project_id, project_name):
         project_seq = self.env["ir.sequence"].search(
-            [("name", "=", "project.scrum." + str(project_id))]
+            [("code", "=", "project.scrum." + str(project_id))]
         )
         if not project_seq:
             self.env["ir.sequence"].create(
@@ -65,4 +65,15 @@ class ProjectScrum(models.Model):
         if vals.get("use_scrum"):
             for project in result:
                 self.project_sequence(project.id, project.name)
+        return result
+
+    def unlink(self):
+        project_ids = self._ids
+
+        result = super(ProjectScrum, self).unlink()
+        for project_id in project_ids:
+            self.env["ir.sequence"].search(
+                [("code", "=", "project.scrum." + str(project_id))]
+            ).unlink()
+
         return result

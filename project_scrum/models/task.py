@@ -51,7 +51,7 @@ class TaskScrum(models.Model):
         string="Sprint",
         compute="_compute_sprint_id",
         readonly=False,
-        store="True",
+        store=True,
     )
 
     @api.depends("stage_id")
