@@ -58,7 +58,10 @@ class TaskScrum(models.Model):
     def _compute_sprint_id(self):
         for record in self:
             if record.stage_id.use_in_sprints:
-                if record.sprint_id:
+                if (
+                    record.sprint_id
+                    and record.sprint_id != record.project_id.current_sprint
+                ):
                     raise ValidationError(_("The task has already a sprint."))
                 record.sprint_id = record.project_id.current_sprint
                 record.date_deadline = record.project_id.current_sprint.end_date
