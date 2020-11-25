@@ -9,7 +9,7 @@ class TeamScrum(models.Model):
     user_ids = fields.Many2many(
         comodel_name="res.users",
         relation="team_scrum_user_rel",
-        column1="team_id",
+        column1="scrum_team_id",
         column2="user_id",
         string="Users",
     )

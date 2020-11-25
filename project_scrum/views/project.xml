@@ -16,7 +16,7 @@
                     attrs="{'invisible' : [('use_scrum', '!=', True)]}"
                 >
                     <group>
-                        <field name="team_id" />
+                        <field name="scrum_team_id" />
                         <field name="sprint_duration" />
                         <field name="current_sprint" />
                         <field name="next_sprint" />

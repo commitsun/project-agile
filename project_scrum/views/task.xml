@@ -11,14 +11,13 @@
                         <field name="difficulty" />
                         <field name="pr_link" widget="url" />
                         <field name="use_scrum" invisible="1" />
-                        <field name="allowed_users" invisible="1" />
-                        <field name="team_id" invisible="1" />
+                        <field name="scrum_team_id" invisible="1" />
                     </group>
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="attributes">
                     <attribute
                         name="domain"
-                    >[('share', '=', False),('team_ids', 'in', [team_id] )]</attribute>
+                    >[('share', '=', False),('scrum_team_ids', 'in', [scrum_team_id] )]</attribute>
                 </xpath>
                  <xpath expr="//field[@name='tag_ids']" position="after">
                     <field

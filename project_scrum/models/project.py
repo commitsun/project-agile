@@ -4,7 +4,7 @@ from odoo import api, fields, models
 class ProjectScrum(models.Model):
     _inherit = "project.project"
     use_scrum = fields.Boolean()
-    team_id = fields.Many2one("project.scrum.team", string="Team")
+    scrum_team_id = fields.Many2one("project.scrum.team", string="Team")
     sprint_duration = fields.Integer(string="Sprint weeks")
     sprint_ids = fields.One2many("project.scrum.sprint", "project_id")
     current_sprint = fields.Many2one(

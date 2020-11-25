@@ -32,13 +32,8 @@ class TaskScrum(models.Model):
     what = fields.Char(string="What")
     why = fields.Char(string="Why")
 
-    allowed_users = fields.Many2many(
-        related="project_id.team_id.user_ids",
-        readonly=True,
-    )
-
-    team_id = fields.Many2one(
-        related="project_id.team_id",
+    scrum_team_id = fields.Many2one(
+        related="project_id.scrum_team_id",
         readonly=True,
     )
 
