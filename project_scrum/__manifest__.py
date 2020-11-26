@@ -19,4 +19,5 @@
         "views/sprint.xml",
         "views/stage.xml",
     ],
+    "demo": ["demo/project_scrum_demo.xml"],
 }

@@ -21,5 +21,25 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="view_scrum_stages_inherit_search" model="ir.ui.view">
+            <field name="name">project.scrum.stage.search.expand.filter</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_search" />
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter
+                        string="Sprint stages"
+                        name="used_in_sprint"
+                        domain="[('used_in_sprint', '=', True)]"
+                    />
+                    <filter
+                        string="No sprint stages"
+                        name="no_used_in_sprint"
+                        domain="[('used_in_sprint', '=', False)]"
+                    />
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>

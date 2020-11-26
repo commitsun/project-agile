@@ -10,6 +10,7 @@
                     <field name="use_scrum" widget="boolean_toggle" />
                 </div>
             </xpath>
+
             <notebook position="inside">
                 <page
                     string="Scrum"
@@ -58,4 +59,55 @@
             </xpath>
         </field>
     </record>
+
+       <record model="ir.ui.view" id="project_scrum_view_tree">
+            <field name="name">project.project.scrum.tree</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban" />
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@class='o_project_kanban_boxes']" position="inside">
+                    <field name="use_scrum" widget="checkbox" invisible="1" />
+                    <a
+                    class="o_project_kanban_boxes"
+                    attrs="{'invisible':[('use_scrum','=',False)]}"
+                >
+                        <a
+                        class="o_project_kanban_box"
+                        name="action_view_tasks"
+                        type="object"
+                    >
+                            <div>
+                                <span class="o_value"><field
+                                    name="sprint_count"
+                                /></span>
+                                <span class="o_label">Sprints</span>
+                            </div>
+                        </a>
+                    </a>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_scrum_projects_inherit_search" model="ir.ui.view">
+            <field name="name">project.scrum.search.expand.filter</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_project_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter
+                    string="Scrum projects"
+                    name="scrum_projects"
+                    domain="[('use_scrum', '=', True)]"
+                />
+                    <filter
+                    string="No scrum projects"
+                    name="no_scrum_projects"
+                    domain="[('use_scrum', '=', False)]"
+                />
+                </xpath>
+            </field>
+
+        </record>
+
 </odoo>

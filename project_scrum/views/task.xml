@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <data>
+
+        <record model="ir.ui.view" id="task_scrum_view_tree">
+            <field name="name">project.task.scrum.tree</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='project_id']" position="after">
+                    <field name="sprint_id" optional="show" readonly="1" />
+                </xpath>
+            </field>
+        </record>
+
         <record id="edit_scrum_task" model="ir.ui.view">
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2" />
             <field name="priority" eval="8" />
             <field name="arch" type="xml">
-
                 <xpath expr="//field[@name='description']" position="before">
                     <group attrs="{'invisible' : [('use_scrum', '!=', True)]}">
                         <field name="difficulty" />
@@ -15,23 +26,19 @@
                         <field name="scrum_team_id" invisible="1" />
                         <field name="scrum_allowed_users" invisible="1" />
                         <field name="scrum_users_domain" invisible="1" />
-
                     </group>
                 </xpath>
-
                 <xpath expr="//field[@name='user_id']" position="attributes">
                     <attribute name="domain">
                         [('id','in', scrum_users_domain)]
                     </attribute>
                 </xpath>
-
                  <xpath expr="//field[@name='tag_ids']" position="before">
                     <field
                         name="sprint_id"
                         attrs="{'invisible' : [('use_scrum', '!=', True)]}"
                     />
                 </xpath>
-
                  <notebook position="inside">
                      <page
                         string="User story"
@@ -67,12 +74,51 @@
             <field name="inherit_id" ref="project.view_task_kanban" />
             <field name="priority" eval="8" />
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='tag_ids']" position="after">
+                <xpath expr="//field[@name='name']" position="after">
                     <div>
-                    <field name="sprint_id" widget="label_selection" />
+                        <field name="sprint_id" widget="kanban_label_selection" />
                     </div>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="before">
+                     <span
+                        class="float-right small"
+                        attrs="{'invisible' : [('use_scrum', '!=', True)]}"
+                    >
+                         <label for="difficulty">Difficulty: </label>
+                        <field name="difficulty" />
+                         <field name="use_scrum" invisible="1" />
+                     </span>
+                </xpath>
+                <xpath
+                    expr="//strong[@class='o_kanban_record_title']"
+                    position="attributes"
+                >
+                     <attribute name="class">h4</attribute>
                 </xpath>
             </field>
          </record>
+
+
+        <record id="view_scrum_tasks_inherit_search" model="ir.ui.view">
+            <field name="name">project.scrum.task.search.expand.filter</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <filter
+                        string="Scrum tasks"
+                        name="scrum_task"
+                        domain="[('use_scrum', '=', True)]"
+                    />
+                    <filter
+                        string="No scrum tasks"
+                        name="no_scrum_task"
+                        domain="[('use_scrum', '=', False)]"
+                    />
+                </xpath>
+            </field>
+        </record>
+
+
     </data>
 </odoo>

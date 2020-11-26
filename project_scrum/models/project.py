@@ -24,6 +24,16 @@ class ProjectScrum(models.Model):
         store=False,
     )
 
+    sprint_count = fields.Integer(
+        compute="_compute_sprint_count", string="Sprint count"
+    )
+
+    def _compute_sprint_count(self):
+        for project in self:
+            project.sprint_count = self.env["project.scrum.sprint"].search_count(
+                [("project_id", "=", project.id)]
+            )
+
     def _compute_current_sprint(self):
         for record in self.sorted(key=lambda r: r.id):
             record.current_sprint = False

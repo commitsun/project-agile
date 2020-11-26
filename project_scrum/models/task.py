@@ -24,7 +24,7 @@ class TaskScrum(models.Model):
             ("00", "Not Set"),
         ]
 
-    difficulty = fields.Selection("_get_difficulty_values")
+    difficulty = fields.Selection("_get_difficulty_values", default="00")
 
     use_scrum = fields.Boolean(related="project_id.use_scrum", readonly=True)
 
@@ -39,15 +39,21 @@ class TaskScrum(models.Model):
     pr_link = fields.Char(string="Pull request link")
 
     scrum_allowed_users = fields.One2many("res.users", compute="_compute_allowed_users")
-
-    def _compute_allowed_users(self):
-        for record in self:
-            record.scrum_allowed_users = record.project_id.scrum_team_id.user_ids
-
     scrum_users_domain = fields.Many2many(
         "res.users",
         compute="_compute_scrum_users_domain",
     )
+    sprint_id = fields.Many2one(
+        "project.scrum.sprint",
+        string="Sprint",
+        compute="_compute_sprint_id",
+        readonly=False,
+        store=True,
+    )
+
+    def _compute_allowed_users(self):
+        for record in self:
+            record.scrum_allowed_users = record.project_id.scrum_team_id.user_ids
 
     def _compute_scrum_users_domain(self):
         for record in self:
@@ -67,14 +73,6 @@ class TaskScrum(models.Model):
                     .mapped("id")
                 )
 
-    sprint_id = fields.Many2one(
-        "project.scrum.sprint",
-        string="Sprint",
-        compute="_compute_sprint_id",
-        readonly=False,
-        store=True,
-    )
-
     @api.depends("stage_id")
     def _compute_sprint_id(self):
         for record in self:
@@ -83,6 +81,6 @@ class TaskScrum(models.Model):
                     record.sprint_id
                     and record.sprint_id != record.project_id.current_sprint
                 ):
-                    raise ValidationError(_("The task has already a sprint."))
+                    raise ValidationError(_("The task has already a sprint"))
                 record.sprint_id = record.project_id.current_sprint
                 record.date_deadline = record.project_id.current_sprint.end_date

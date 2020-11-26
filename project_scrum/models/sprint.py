@@ -15,7 +15,11 @@ class SprintScrum(models.Model):
     )
 
     name = fields.Char(
-        string="Sprint name", readonly=True, required=True, copy=False, default="New"
+        string="Sprint name",
+        readonly=True,
+        required=True,
+        copy=False,
+        default=lambda self: _("New"),
     )
 
     start_date = fields.Date(string="Sprint start date", required=True)
@@ -59,7 +63,7 @@ class SprintScrum(models.Model):
             if not record.project_id.use_scrum:
                 raise ValidationError(
                     _(
-                        "you cannot create sprints belonging to projects"
+                        "Cannot create sprints belonging to projects"
                         " that do not use scrum"
                     )
                 )
@@ -67,6 +71,6 @@ class SprintScrum(models.Model):
     @api.model
     def create(self, vals):
         result = super(SprintScrum, self).create(vals)
-        if result["name"] == "New":
+        if result["name"] == _("New"):
             result["name"] = result.project_id.scrum_sequence_id.next_by_id()
         return result
