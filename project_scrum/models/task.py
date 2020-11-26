@@ -32,14 +32,40 @@ class TaskScrum(models.Model):
     what = fields.Char(string="What")
     why = fields.Char(string="Why")
 
-    scrum_team_id = fields.Many2one(
-        related="project_id.scrum_team_id",
-        readonly=True,
-    )
+    scrum_team_id = fields.Many2one("project.scrum.team", string="Team")
 
     def_of_done = fields.Html()
     technical_details = fields.Html()
     pr_link = fields.Char(string="Pull request link")
+
+    scrum_allowed_users = fields.One2many("res.users", compute="_compute_allowed_users")
+
+    def _compute_allowed_users(self):
+        for record in self:
+            record.scrum_allowed_users = record.project_id.scrum_team_id.user_ids
+
+    scrum_users_domain = fields.Many2many(
+        "res.users",
+        compute="_compute_scrum_users_domain",
+    )
+
+    def _compute_scrum_users_domain(self):
+        for record in self:
+            if not record.use_scrum:
+                record.scrum_users_domain = (
+                    self.env["res.users"].search([("share", "=", False)]).mapped("id")
+                )
+            else:
+                record.scrum_users_domain = (
+                    self.env["res.users"]
+                    .search(
+                        [
+                            ("share", "=", False),
+                            ("id", "in", record.scrum_allowed_users.mapped("id")),
+                        ]
+                    )
+                    .mapped("id")
+                )
 
     sprint_id = fields.Many2one(
         "project.scrum.sprint",

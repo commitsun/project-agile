@@ -6,10 +6,4 @@ class TeamScrum(models.Model):
     _description = "Scrum team"
     name = fields.Char(string="Name")
 
-    user_ids = fields.Many2many(
-        comodel_name="res.users",
-        relation="team_scrum_user_rel",
-        column1="scrum_team_id",
-        column2="user_id",
-        string="Users",
-    )
+    user_ids = fields.Many2many("res.users", string="Users")

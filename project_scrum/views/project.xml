@@ -20,10 +20,16 @@
                         <field name="sprint_duration" />
                         <field name="current_sprint" />
                         <field name="next_sprint" />
+                        <field name="scrum_sequence_id" invisible="1" />
                     </group>
                     <h2>Sprints in this project:</h2>
-                    <field name="sprint_ids" nolabel="1">
-                        <tree create="false" delete="false" edit="false">
+                    <field
+                        name="sprint_ids"
+                        nolabel="1"
+                        attrs="{'readonly':[('id','=',False)]}"
+                    >
+                        <tree editable="bottom">
+                            <field name="project_id" invisible="1" />
                             <field name="name" />
                             <field name="start_date" />
                             <field name="end_date" />

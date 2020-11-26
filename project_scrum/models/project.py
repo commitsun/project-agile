@@ -7,6 +7,8 @@ class ProjectScrum(models.Model):
     scrum_team_id = fields.Many2one("project.scrum.team", string="Team")
     sprint_duration = fields.Integer(string="Sprint weeks")
     sprint_ids = fields.One2many("project.scrum.sprint", "project_id")
+    scrum_sequence_id = fields.Many2one("ir.sequence")
+
     current_sprint = fields.Many2one(
         "project.scrum.sprint",
         string="Current sprint",
@@ -38,25 +40,20 @@ class ProjectScrum(models.Model):
                     record.next_sprint = sprint
                     break
 
-    def project_sequence(self, project_id, project_name):
-        project_seq = self.env["ir.sequence"].search(
-            [("code", "=", "project.scrum." + str(project_id))]
-        )
-        if not project_seq:
-            self.env["ir.sequence"].create(
-                {
-                    "name": "sequence for project: " + project_name,
-                    "code": "project.scrum." + str(project_id),
-                    "padding": 3,
-                }
-            )
-
     # ORM Overrides
     def write(self, vals):
         result = super(ProjectScrum, self).write(vals)
         if vals.get("use_scrum"):
             for project in self:
-                self.project_sequence(project.id, project.name)
+                if not project.scrum_sequence_id:
+                    project.scrum_sequence_id = self.env["ir.sequence"].create(
+                        {
+                            "name": "sequence for project: " + project.name,
+                            "code": "project.scrum." + str(project.id),
+                            "padding": 3,
+                            "prefix": project.name + "-sprint-",
+                        }
+                    )
         return result
 
     @api.model
@@ -64,7 +61,15 @@ class ProjectScrum(models.Model):
         result = super(ProjectScrum, self).create(vals)
         if vals.get("use_scrum"):
             for project in result:
-                self.project_sequence(project.id, project.name)
+                if not project.scrum_sequence_id:
+                    project.scrum_sequence_id = self.env["ir.sequence"].create(
+                        {
+                            "name": "sequence for project: " + project.name,
+                            "code": "project.scrum." + str(project.id),
+                            "padding": 3,
+                            "prefix": project.name + "-sprint-",
+                        }
+                    )
         return result
 
     def unlink(self):

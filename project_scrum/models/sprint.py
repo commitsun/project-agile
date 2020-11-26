@@ -13,6 +13,7 @@ class SprintScrum(models.Model):
         ondelete="cascade",
         required=True,
     )
+
     name = fields.Char(
         string="Name of the sprint",
         compute="_compute_sprint_name",
@@ -20,18 +21,14 @@ class SprintScrum(models.Model):
         readonly=False,
     )
 
-    start_date = fields.Date(string="Sprint start date")
-    end_date = fields.Date(string="Sprint end date")
+    start_date = fields.Date(string="Sprint start date", required=True)
+    end_date = fields.Date(string="Sprint end date", required=True)
 
     @api.depends("project_id")
     def _compute_sprint_name(self):
         for record in self:
-            if record.project_id and not record.name:
-                project_seq = self.env["ir.sequence"].next_by_code(
-                    "project.scrum." + str(record.project_id.id)
-                )
-                if project_seq:
-                    record.name = record.project_id.name + "-sprint-" + str(project_seq)
+            if record.project_id.scrum_sequence_id and not record.name:
+                record.name = record.project_id.scrum_sequence_id.next_by_id()
 
     @api.constrains("start_date", "end_date")
     def check_dates(self):

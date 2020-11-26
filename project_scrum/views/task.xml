@@ -6,19 +6,25 @@
             <field name="inherit_id" ref="project.view_task_form2" />
             <field name="priority" eval="8" />
             <field name="arch" type="xml">
+
                 <xpath expr="//field[@name='description']" position="before">
                     <group attrs="{'invisible' : [('use_scrum', '!=', True)]}">
                         <field name="difficulty" />
                         <field name="pr_link" widget="url" />
                         <field name="use_scrum" invisible="1" />
                         <field name="scrum_team_id" invisible="1" />
+                        <field name="scrum_allowed_users" invisible="1" />
+                        <field name="scrum_users_domain" invisible="1" />
+
                     </group>
                 </xpath>
+
                 <xpath expr="//field[@name='user_id']" position="attributes">
-                    <attribute
-                        name="domain"
-                    >[('share', '=', False),('scrum_team_ids', 'in', [scrum_team_id] )]</attribute>
+                    <attribute name="domain">
+                        [('id','in', scrum_users_domain)]
+                    </attribute>
                 </xpath>
+
                  <xpath expr="//field[@name='tag_ids']" position="after">
                     <field
                         name="sprint_id"
