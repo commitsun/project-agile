@@ -30,7 +30,7 @@
         <field name="arch" type="xml">
             <tree string="Sprints">
                 <field name="project_id" domain="[('use_scrum', '=', True)]" />
-                <field name="name" />
+                <field name="name" readonly="1" />
                 <field name="start_date" />
                 <field name="end_date" />
             </tree>
@@ -45,9 +45,6 @@
             </p>
         </field>
     </record>
-
-
-
 
     <menuitem
         id="menu_sprint_scrum"

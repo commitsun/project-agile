@@ -25,7 +25,7 @@
                     </attribute>
                 </xpath>
 
-                 <xpath expr="//field[@name='tag_ids']" position="after">
+                 <xpath expr="//field[@name='tag_ids']" position="before">
                     <field
                         name="sprint_id"
                         attrs="{'invisible' : [('use_scrum', '!=', True)]}"

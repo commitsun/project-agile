@@ -78,7 +78,7 @@ class TaskScrum(models.Model):
     @api.depends("stage_id")
     def _compute_sprint_id(self):
         for record in self:
-            if record.stage_id.use_in_sprints:
+            if record.stage_id.used_in_sprint:
                 if (
                     record.sprint_id
                     and record.sprint_id != record.project_id.current_sprint

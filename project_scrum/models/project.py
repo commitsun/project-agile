@@ -3,7 +3,7 @@ from odoo import api, fields, models
 
 class ProjectScrum(models.Model):
     _inherit = "project.project"
-    use_scrum = fields.Boolean()
+    use_scrum = fields.Boolean(default=False)
     scrum_team_id = fields.Many2one("project.scrum.team", string="Team")
     sprint_duration = fields.Integer(string="Sprint weeks")
     sprint_ids = fields.One2many("project.scrum.sprint", "project_id")
@@ -41,6 +41,20 @@ class ProjectScrum(models.Model):
                     break
 
     # ORM Overrides
+    @api.model
+    def create(self, vals):
+        result = super(ProjectScrum, self).create(vals)
+        if result["use_scrum"]:
+            result["scrum_sequence_id"] = self.env["ir.sequence"].create(
+                {
+                    "name": "sequence for project: " + result["name"],
+                    "code": "project.scrum." + str(result.id),
+                    "padding": 3,
+                    "prefix": result["name"] + "-sprint-",
+                }
+            )
+        return result
+
     def write(self, vals):
         result = super(ProjectScrum, self).write(vals)
         if vals.get("use_scrum"):
@@ -56,25 +70,8 @@ class ProjectScrum(models.Model):
                     )
         return result
 
-    @api.model
-    def create(self, vals):
-        result = super(ProjectScrum, self).create(vals)
-        if vals.get("use_scrum"):
-            for project in result:
-                if not project.scrum_sequence_id:
-                    project.scrum_sequence_id = self.env["ir.sequence"].create(
-                        {
-                            "name": "sequence for project: " + project.name,
-                            "code": "project.scrum." + str(project.id),
-                            "padding": 3,
-                            "prefix": project.name + "-sprint-",
-                        }
-                    )
-        return result
-
     def unlink(self):
         project_ids = self._ids
-
         result = super(ProjectScrum, self).unlink()
         for project_id in project_ids:
             self.env["ir.sequence"].search(

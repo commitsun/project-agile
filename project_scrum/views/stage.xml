@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="project.task_type_edit" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='mail_template_id']" position="after">
-                    <field name="use_in_sprints" widget="boolean_toggle" />
+                    <field name="used_in_sprint" widget="boolean_toggle" />
                 </xpath>
             </field>
         </record>
@@ -17,7 +17,7 @@
             <field name="inherit_id" ref="project.task_type_tree" />
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='name']" position="after">
-                    <field name="use_in_sprints" />
+                    <field name="used_in_sprint" />
                 </xpath>
             </field>
         </record>

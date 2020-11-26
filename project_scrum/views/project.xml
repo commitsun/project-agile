@@ -18,11 +18,20 @@
                     <group>
                         <field name="scrum_team_id" />
                         <field name="sprint_duration" />
-                        <field name="current_sprint" />
-                        <field name="next_sprint" />
+
+                        <field
+                            name="current_sprint"
+                            attrs="{'invisible' : [('current_sprint', '=', False)]}"
+                        />
+                        <field
+                            name="next_sprint"
+                            attrs="{'invisible' : [('next_sprint', '=', False)]}"
+                        />
+
                         <field name="scrum_sequence_id" invisible="1" />
                     </group>
-                    <h2>Sprints in this project:</h2>
+
+                    <h2>Current project sprints:</h2>
                     <field
                         name="sprint_ids"
                         nolabel="1"

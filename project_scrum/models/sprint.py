@@ -15,20 +15,11 @@ class SprintScrum(models.Model):
     )
 
     name = fields.Char(
-        string="Name of the sprint",
-        compute="_compute_sprint_name",
-        store=True,
-        readonly=False,
+        string="Sprint name", readonly=True, required=True, copy=False, default="New"
     )
 
     start_date = fields.Date(string="Sprint start date", required=True)
     end_date = fields.Date(string="Sprint end date", required=True)
-
-    @api.depends("project_id")
-    def _compute_sprint_name(self):
-        for record in self:
-            if record.project_id.scrum_sequence_id and not record.name:
-                record.name = record.project_id.scrum_sequence_id.next_by_id()
 
     @api.constrains("start_date", "end_date")
     def check_dates(self):
@@ -72,3 +63,10 @@ class SprintScrum(models.Model):
                         " that do not use scrum"
                     )
                 )
+
+    @api.model
+    def create(self, vals):
+        result = super(SprintScrum, self).create(vals)
+        if result["name"] == "New":
+            result["name"] = result.project_id.scrum_sequence_id.next_by_id()
+        return result
