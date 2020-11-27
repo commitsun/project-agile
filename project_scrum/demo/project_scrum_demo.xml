@@ -20,7 +20,6 @@
                 name="user_ids"
                 eval="[(4, ref('base.user_demo')), (4, ref('base.user_admin'))]"
             />
-            <field name="no_reset_password" eval="False" />
         </record>
 
         <record id="scrum_team_2" model="project.scrum.team">
