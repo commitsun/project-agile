@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <!--        users       -->
+        <record id="scrum_user_1" model="res.users">
+            <field name="name">John Doe</field>
+            <field name="login">john</field>
+            <field name="password">12345</field>
+        </record>
+        <record id="scrum_user_2" model="res.users">
+            <field name="name">Jamie Armstrong</field>
+            <field name="login">jamie</field>
+            <field name="password">12345</field>
+        </record>
+
+        <!--        Scrum Team       -->
+        <record id="scrum_team_1" model="project.scrum.team">
+            <field name="name">Team Europe</field>
+            <field
+                name="user_ids"
+                eval="[(4, ref('base.user_demo')), (4, ref('base.user_admin'))]"
+            />
+        </record>
+
+        <record id="scrum_team_2" model="project.scrum.team">
+            <field name="name">Team USA</field>
+            <field
+                name="user_ids"
+                eval="[(4, ref('scrum_user_1')), (4, ref('scrum_user_2'))]"
+            />
+        </record>
+        <!--        Project Tag       -->
+        <record id="project_scrum_tag_04" model="project.tags">
+            <field name="name">internal-dev</field>
+        </record>
+        <!--        Scrum Stages       -->
+        <record id="project_scrum_stage_1" model="project.task.type">
+            <field name="sequence">1</field>
+            <field name="name">Cancelled</field>
+            <field name="fold" eval="True" />
+        </record>
+        <record id="project_scrum_stage_2" model="project.task.type">
+            <field name="sequence">2</field>
+            <field name="name">Backlog</field>
+        </record>
+        <record id="project_scrum_stage_3" model="project.task.type">
+            <field name="sequence">3</field>
+            <field name="name">Sprint backlog</field>
+            <field name="used_in_sprint" eval="True" />
+        </record>
+         <record id="project_scrum_stage_4" model="project.task.type">
+            <field name="sequence">4</field>
+            <field name="name">Sprint in progress</field>
+            <field name="used_in_sprint" eval="True" />
+        </record>
+        <record id="project_scrum_stage_5" model="project.task.type">
+            <field name="sequence">5</field>
+            <field name="name">Sprint completed</field>
+            <field name="used_in_sprint" eval="True" />
+            <field name="is_closed" eval="True" />
+        </record>
+        <record id="project_scrum_stage_6" model="project.task.type">
+            <field name="sequence">6</field>
+            <field name="name">Past sprints</field>
+            <field name="fold" eval="True" />
+        </record>
+        <!--        Scrum Project       -->
+        <record id="project_scrum_1" model="project.project">
+            <field name="date_start" eval="time.strftime('%Y-%m-01 10:00:00')" />
+            <field name="name">My first scrum project</field>
+            <field name="color">11</field>
+            <field name="scrum_team_id" ref="scrum_team_1" />
+            <field name="sprint_duration">3</field>
+             <field name="user_id" ref="base.user_demo" />
+            <field name="use_scrum" eval="True" />
+            <field
+                name="type_ids"
+                eval="[(4, ref('project_scrum_stage_1')), (4, ref('project_scrum_stage_2')), (4, ref('project_scrum_stage_3')), (4, ref('project_scrum_stage_4')), (4, ref('project_scrum_stage_5')), (4, ref('project_scrum_stage_6'))]"
+            />
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+<!--            <field name="partner_id" ref="base.partner_demo" />-->
+            <field name="privacy_visibility">portal</field>
+            <field name="label_tasks">User stories</field>
+
+        </record>
+        <!--        Scrum Sprints       -->
+        <record id="project_scrum_sprint_1" model="project.scrum.sprint">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="start_date" eval="DateTime.today()" />
+            <field name="end_date" eval="DateTime.today() + timedelta(20)" />
+        </record>
+        <record id="project_scrum_sprint_2" model="project.scrum.sprint">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="start_date" eval="DateTime.today() + timedelta(21)" />
+            <field name="end_date" eval="DateTime.today() + timedelta(41)" />
+        </record>
+        <record id="project_scrum_sprint_3" model="project.scrum.sprint">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="start_date" eval="DateTime.today() + timedelta(42)" />
+            <field name="end_date" eval="DateTime.today() + timedelta(63)" />
+        </record>
+
+        <!--        Scrum Tasks       -->
+        <record id="project_scrum_task_01" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">Polish notation generator</field>
+            <field name="stage_id" ref="project_scrum_stage_1" />
+            <field name="tag_ids" eval="[(6, 0, [ref('project_scrum_tag_04')])]" />
+            <field name="user_id" eval="None" />
+            <field name="difficulty">34</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+        </record>
+
+        <record id="project_scrum_task_02" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">POC GrahQL</field>
+            <field name="stage_id" ref="project_scrum_stage_2" />
+            <field name="tag_ids" eval="[(6, 0, [ref('project.project_tags_02')])]" />
+            <field name="user_id" eval="None" />
+            <field name="sequence">2</field>
+            <field name="difficulty">8</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+        </record>
+
+        <record id="project_scrum_task_03" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">I18n</field>
+            <field name="stage_id" ref="project_scrum_stage_2" />
+            <field name="tag_ids" eval="[(6, 0, [ref('project.project_tags_03')])]" />
+            <field name="user_id" eval="None" />
+            <field name="kanban_state">done</field>
+            <field name="sequence">0</field>
+            <field name="difficulty">3</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+        </record>
+
+        <record id="project_scrum_task_04" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">Infrastructure logger</field>
+            <field name="stage_id" ref="project_scrum_stage_2" />
+            <field name="tag_ids" eval="[(6, 0, [ref('project_scrum_tag_04')])]" />
+            <field name="user_id" eval="None" />
+            <field name="kanban_state">blocked</field>
+            <field name="sequence">1</field>
+            <field name="difficulty">5</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+        </record>
+
+
+
+
+         <record id="project_scrum_task_05" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">B2B portal</field>
+            <field name="stage_id" ref="project_scrum_stage_2" />
+            <field name="tag_ids" eval="[(6, 0, [ref('project.project_tags_01')])]" />
+            <field name="user_id" eval="None" />
+            <field name="kanban_state">done</field>
+            <field name="sequence">0</field>
+            <field name="difficulty">5</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+
+        </record>
+
+        <record id="project_scrum_task_06" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">Domain parser</field>
+            <field name="stage_id" ref="project_scrum_stage_3" />
+            <field
+                name="tag_ids"
+                eval="[(4, ref('project.project_tags_01')),(4, ref('project_scrum_tag_04'))]"
+            />
+            <field name="user_id" eval="None" />
+            <field name="difficulty">8</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+
+        </record>
+
+        <record id="project_scrum_task_07" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">Paypal integration</field>
+            <field name="stage_id" ref="project_scrum_stage_3" />
+            <field name="tag_ids" eval="[(6, 0, [ref('project.project_tags_01')])]" />
+            <field name="user_id" eval="None" />
+            <field name="difficulty">3</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+        </record>
+
+
+
+        <record id="project_scrum_task_08" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">Back office</field>
+            <field name="stage_id" ref="project_scrum_stage_4" />
+            <field name="tag_ids" eval="[(6, 0, [ref('project.project_tags_01')])]" />
+            <field name="kanban_state">blocked</field>
+            <field name="user_id" ref="base.user_demo" />
+            <field name="difficulty">21</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+        </record>
+
+
+
+        <record id="project_scrum_task_09" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">Fix last bug production</field>
+            <field name="stage_id" ref="project_scrum_stage_4" />
+            <field name="tag_ids" eval="[(6, 0, [ref('project.project_tags_00')])]" />
+            <field name="user_id" ref="base.user_admin" />
+            <field name="difficulty">13</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+        </record>
+
+
+
+
+         <record id="project_scrum_task_10" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">API REST</field>
+            <field name="stage_id" ref="project_scrum_stage_5" />
+            <field name="tag_ids" eval="[(6, 0, [ref('project.project_tags_01')])]" />
+            <field name="kanban_state">done</field>
+            <field name="user_id" ref="base.user_admin" />
+            <field name="difficulty">21</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+        </record>
+
+
+
+        <record id="project_scrum_task_11" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">UX</field>
+            <field name="stage_id" ref="project_scrum_stage_5" />
+            <field name="tag_ids" eval="[(6, 0, [ref('project.project_tags_03')])]" />
+            <field name="kanban_state">done</field>
+            <field name="user_id" ref="base.user_demo" />
+            <field name="difficulty">8</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+
+        </record>
+
+        <record id="project_scrum_task_12" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">Initial documentation</field>
+            <field name="stage_id" ref="project_scrum_stage_6" />
+            <field name="user_id" ref="base.user_demo" />
+            <field name="difficulty">3</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+        </record>
+        <record id="project_scrum_task_13" model="project.task">
+            <field name="project_id" ref="project_scrum_1" />
+            <field name="name">Design</field>
+            <field name="stage_id" ref="project_scrum_stage_6" />
+            <field name="user_id" ref="base.user_admin" />
+            <field name="difficulty">5</field>
+            <field name="pr_link">www.google.es</field>
+            <field name="who">Customer</field>
+            <field name="what">The task</field>
+            <field name="why">Necessary</field>
+            <field name="description">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="def_of_done">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+            <field name="technical_details">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+a1,a1,model_project_project,base.group_user,1,1,1,1
+a2,a2,model_project_scrum_team,base.group_user,1,1,1,1
+a3,a3,model_project_task,base.group_user,1,1,1,1
+a4,a4,model_project_scrum_sprint,base.group_user,1,1,1,1
+a5,a5,model_project_task_type,base.group_user,1,1,1,1
